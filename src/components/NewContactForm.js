@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 // import './FilmReleaseBox.css'
 
 
-import validator from '../../node_modules/validator' 
+// import validator from '../../node_modules/validator' 
 
 
 
@@ -18,16 +18,16 @@ class NewContactForm extends Component {
     }
 
     validatePhoneNumber = (number) => {
-        const isValidPhoneNumber = validator.isMobilePhone(number)
-        return (isValidPhoneNumber)
+        // const isValidPhoneNumber = validator.isMobilePhone(number)
+        // return (isValidPhoneNumber)
        }
 
     handleNameChange = (event) => {
         this.setState({currentName: event.target.value})
     }
     handlePhoneNumberChange = (event) => {
-        if (this.validatePhoneNumber(event.target.value) === true){
-            console.log("its true")
+        // if (this.validatePhoneNumber(event.target.value) === true){
+            // console.log("its true")
             
             // console.log(this.validatePhoneNumber(event.target.value))
 
@@ -35,9 +35,9 @@ class NewContactForm extends Component {
             // console.log(validatePhoneNumber('0641732123')) //=> true
             // )
 
-            // this.setState({currentPhoneNumber: event.target.value})
+            this.setState({currentPhoneNumber: event.target.value})
         }
-    }
+
     handleNewContactSubmit = (event) => {
         event.preventDefault();
         this.props.onNewContactSubmit(this.state.currentName, this.state.currentPhoneNumber)
