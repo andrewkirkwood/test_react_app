@@ -1,12 +1,9 @@
-import React, { Fragment, useEffect} from 'react'
+import React, { Fragment} from 'react'
 import Contact from './Contact'
 // import './FilmList.css'
 
 function SavedContactsList({contacts}){
 
-  // useEffect(() => {
-
-  // })
   const contactComponents = contacts.map(contact => {
     return (
       <Contact

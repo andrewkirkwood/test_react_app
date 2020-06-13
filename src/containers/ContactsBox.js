@@ -1,51 +1,48 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import SavedContactsList from '../components/SavedContactsList'
 import NewContactForm from '../components/NewContactForm'
-// import './FilmReleaseBox.css'
 
 class ContactsBox extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
-      contacts: [
-        {
-          name: "Steve",
-          phoneNumber: 890809897
-        },
-        {
-          name: "Jim",
-          phoneNumber: 708970707
-        }
-      ]
+      contacts: []
     }
     this.addNewContact = this.addNewContact.bind(this);
   }
-  
-  componentDidMount(){
-    console.log(this.state.contacts)
-    //fetch from the server all currently approved contacts
+
+  componentDidMount() {
+    this.fetchAllApprovedContacts()
   }
 
-  componentDidUpdate(prevState) {
-    if (this.state.contacts === prevState.contacts) {
-      console.log("contacts updated")
-    }
-    else {
-      return
-    }
+  fetchAllApprovedContacts() {
+    fetch("http://localhost:8000")
+    .then(res => res.json())
+    .then(fetchedContacts => {
+      this.setState({contacts: fetchedContacts})
+    })
+    .catch(err => console.error)
   }
 
   addNewContact = (newContactName, newContactPhoneNumber) => {
-    const newContactToBeAdded = {name: newContactName, phoneNumber: newContactPhoneNumber}
+    const newContactToBeAdded = { name: newContactName, phoneNumber: newContactPhoneNumber }
     const contactsUpdated = [...this.state.contacts, newContactToBeAdded]
-    this.setState({contacts: contactsUpdated})
+
+    fetch("http://localhost:8000", {
+      method: 'POST',
+      body: JSON.stringify(newContactToBeAdded),
+      headers: { 'Content-Type': 'application/json'}
+    })
+    .then(res => res.json())
+    .then(res => this.setState({ contacts: contactsUpdated })
+    )
   }
 
-  render(){
+  render() {
     return (
       <article>
         {/* <h2> Contacts Box </h2> */}
-        <NewContactForm onNewContactSubmit={this.addNewContact}/>
+        <NewContactForm onNewContactSubmit={this.addNewContact} />
         <SavedContactsList contacts={this.state.contacts} />
       </article>
     )
@@ -53,3 +50,4 @@ class ContactsBox extends Component {
 }
 
 export default ContactsBox
+
